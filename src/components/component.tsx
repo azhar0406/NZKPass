@@ -33,10 +33,10 @@ import Link from "next/link"
 export function Component() {
   const [account, setAccount] = useState("");
   const [verified, setVerified] = useState(false);
-  const [proof, setProof] = useState(null);
+  const [proof, setProof] = useState<Proof | null>(null);
   const [client, setClient] = useState<NibiruTxClient | null>(null);
   const [keplrConnected, setKeplrConnected] = useState(false);
-  const [address, setAddress] = useState(null);
+  const [address, setAddress] = useState("");
   const [schemaId] = useState("0f02e026adcb46cba76b2a536e8c218e");
   const [nftMinted, setNFTMinted] = useState(false)
   const [transactionHash, setTransactionHash] = useState("")
@@ -69,7 +69,7 @@ export function Component() {
       if (!window.getOfflineSigner && !window.keplr) {
         alert("Please install Keplr extension");
       } else {
-        await window.keplr.enable("nibiru-testnet-1");
+        await window.keplr?.enable("nibiru-testnet-1");
         const offlineSigner = window.getOfflineSigner("nibiru-testnet-1");
         const accounts = await offlineSigner.getAccounts();
 
@@ -129,7 +129,7 @@ export function Component() {
               token_uri: "https://ipfs.io/ipfs/QmX67oJjQ3v133JH8oafdnkPowwArYjTGxqsc3j4S7LbWy",
               extension: {
                 name: "NZKPass",
-                description: "NZKPass Soul Bound NFT to verify your identity",
+                description: "NZKPass Soulbound NFT to verify your identity",
                 image: "ipfs://QmX67oJjQ3v133JH8oafdnkPowwArYjTGxqsc3j4S7LbWy",
                 attributes: []
               }
@@ -149,13 +149,17 @@ export function Component() {
       executeMsg,
       fee
     );
+
+    if(executeContract){
       console.log('Transaction result:', executeContract);
       setIsLoading(false);
       setNFTMinted(true);
-      setTransactionHash(executeContract.transactionHash);
-    } catch (err) {
-      console.error('Minting failed:', err);
-    }
+      setTransactionHash(executeContract.transactionHash); 
+  }
+} catch (err) {
+  console.error('Minting failed:', err);
+}
+
   };
 
 
@@ -215,7 +219,7 @@ export function Component() {
             </div>
           ) : !nftMinted ? (
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-2xl font-bold mb-4">Mint Your Soul Bound NFT</h2>
+              <h2 className="text-2xl font-bold mb-4">Mint Your Soulbound NFT</h2>
               <p className="text-gray-600 mb-6">Your wallet is connected and verified. You can now mint a NFT.</p>
               <button
                 onClick={mintNFT}
