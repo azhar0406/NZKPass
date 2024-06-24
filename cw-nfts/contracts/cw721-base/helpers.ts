@@ -56,7 +56,7 @@ const pebblenetOptions: Options = {
   feeToken: 'upebble',
   faucetUrl: 'https://faucet.pebblenet.cosmwasm.com/credit',
   hdPath: makeCosmoshubPath(0),
-  defaultKeyFile: path.join(process.env.HOME, ".pebblenet.key"),
+  defaultKeyFile: path.join("", ".pebblenet.key"),
   fees: {
     upload: calculateFee(1500000, pebblenetGasPrice),
     init: calculateFee(500000, pebblenetGasPrice),
